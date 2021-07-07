@@ -42,6 +42,9 @@ EEOF
 
     bsdtar -xpf *.tar.gz -C root/
     sync
+
+    mount --bind /dev root/dev
+    mount --bind /sys root/sys
 }
 
 clone() # clone all repositories
@@ -52,7 +55,7 @@ clone() # clone all repositories
 clean()
 {
     mv root/boot/* boot/
-    umount root/ boot/
+    umount root/dev/ root/sys root/ boot/
     losetup -d $LOOP
     rm -rf root/ boot/
     mv OScar.iso ..
