@@ -61,10 +61,10 @@ clone() # clone all repositories
     (
         cd root/tmp
 
-        git clone --recursive https://github.com/grame-cncm/faust.git
-        git clone --recursive https://github.com/jcelerier/qtshadertools.git
-        git clone --recursive https://github.com/ossia/score.git
-        git clone --recursive https://github.com/ossia/score-user-library.git
+        git clone --recursive https://github.com/grame-cncm/faust.git -j`nproc`
+        git clone --recursive https://github.com/jcelerier/qtshadertools.git -j`nproc`
+        git clone --recursive https://github.com/ossia/score.git -j`nproc`
+        git clone --recursive https://github.com/ossia/score-user-library.git -j`nproc`
     )
 }
 

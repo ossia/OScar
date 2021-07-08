@@ -18,7 +18,7 @@ usermod -a -G audio,video,realtime,uucp oscar
 faust()
 {
     (
-    cd /faust/build
+    cd faust/build
 
     echo 'build
     set ( ASMJS_BACKEND  OFF CACHE STRING  "Include ASMJS backend" FORCE )
@@ -53,7 +53,7 @@ score()
 
         cmake .. -GNinja -DSCORE_PCH=1 -DCMAKE_CXX_FLAGS='-Ofast -march=native' -DCMAKE_C_FLAGS='-Ofast -march=native' -DCMAKE_BUILD_TYPE=Release
 
-        ninja qtshadertools/bin
+        ninja
         ninja install
     )
 }
