@@ -12,7 +12,7 @@ part() # partition and mount OScar.iso
         clean
     fi
 
-    dd if=/dev/zero of=OScar.iso bs=1M count=4096 # create virtual partition
+    dd if=/dev/zero of=OScar.iso bs=1M count=8192 # create virtual partition
 
     # TODO clean this
     fdisk OScar.iso <<EEOF
