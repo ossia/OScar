@@ -96,7 +96,8 @@ if [ "$1" == "-c" ]; then
 else
     part
     clone
-    docker run --rm -v $PWD:/mnt --platform $PLATFORM lopsided/archlinux:devel mnt/chroot.sh
+    chroot.sh -p
+    docker run --rm -v $PWD:/mnt --platform $PLATFORM lopsided/archlinux:devel 'mnt/chroot.sh -f'
     ## for manual use
     ## docker run --rm -v $PWD:/mnt --platform linux/arm64/v8 -it lopsided/archlinux:devel
     clean
