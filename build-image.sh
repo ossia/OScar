@@ -12,7 +12,8 @@ part() # partition and mount OScar.iso
         clean
     fi
 
-    dd if=/dev/zero of=OScar.iso bs=1M count=8192 # create virtual partition
+    echo "Create virtual partition"
+    dd if=/dev/zero of=OScar.iso bs=1M count=8192
 
     # TODO clean this
     fdisk OScar.iso <<EEOF
@@ -61,10 +62,10 @@ clone() # clone all repositories
     (
         cd root/tmp
 
-        git clone --recursive https://github.com/grame-cncm/faust.git -j`nproc`
-        git clone --recursive https://github.com/jcelerier/qtshadertools.git -j`nproc`
-        git clone --recursive https://github.com/ossia/score.git -j`nproc`
-        git clone --recursive https://github.com/ossia/score-user-library.git -j`nproc`
+        git clone --recursive -j`nproc` https://github.com/grame-cncm/faust.git
+        git clone --recursive -j`nproc` https://github.com/jcelerier/qtshadertools.git
+        git clone --recursive -j`nproc` https://github.com/ossia/score.git
+        git clone --recursive -j`nproc` https://github.com/ossia/score-user-library.git
     )
 }
 
