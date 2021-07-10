@@ -12,7 +12,7 @@ part() # partition and mount OScar.iso
         clean
     fi
 
-    echo "Create virtual partition"
+    echo "Creating virtual partition"
     dd if=/dev/zero of=OScar.iso bs=1M count=8192
 
     # TODO clean this
@@ -41,7 +41,7 @@ EEOF
 
     mkfs.ext4 ${LOOP}p2
     mkdir -p root
-    mount ${LOOP}p2 root/
+    mount --make-rslave ${LOOP}p2 root/
 
 
     if [ ! -f *.tar.gz ]; then
@@ -51,10 +51,7 @@ EEOF
     bsdtar -xpf *.tar.gz -C root/
     sync
 
-    mount --bind /proc root/proc
-
-    mount --bind /dev root/dev
-    mount --bind /sys root/sys
+    mount --bind --make-rslave /sys root/sys
 }
 
 clone() # clone all repositories
@@ -73,7 +70,7 @@ clean()
 {
     mv root/boot/* boot/
     rm -rf root/tmp/*
-    umount root/proc root/dev/ root/sys root/ boot/
+    umount -R root/ boot/
     losetup -d $LOOP
     rm -rf root/ boot/
     mv OScar.iso ..
@@ -96,8 +93,8 @@ if [ "$1" == "-c" ]; then
 else
     part
     clone
-    chroot.sh -p
-    docker run --rm -v $PWD:/mnt --platform $PLATFORM lopsided/archlinux:devel 'mnt/chroot.sh -f'
+    ./prepare.sh
+    docker run --rm -v $PWD:/mnt --platform $PLATFORM lopsided/archlinux:devel /mnt/finish.sh
     ## for manual use
     ## docker run --rm -v $PWD:/mnt --platform linux/arm64/v8 -it lopsided/archlinux:devel
     clean
