@@ -36,7 +36,35 @@ score()
         mkdir ../score/build
         cd ../score/build
 
-        cmake .. -GNinja -DSCORE_PCH=1 -DCMAKE_CXX_FLAGS='-Ofast -march=native' -DCMAKE_C_FLAGS='-Ofast -march=native' -DCMAKE_BUILD_TYPE=Release
+        cmake .. -GNinja -DSCORE_PCH=1 -DCMAKE_CXX_FLAGS='-Ofast -march=native' -DCMAKE_C_FLAGS='-Ofast -march=native' -DSMTG_RUN_VST_VALIDATOR=0 -DCMAKE_BUILD_TYPE=Release
+
+        ninja
+        ninja install
+    )
+}
+
+sc()
+{
+    (
+        mkdir supercollider/build
+        cd supercollider/build
+
+        cmake  .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS='-Ofast -march=native' -DCMAKE_C_FLAGS='-Ofast -march=native' -DSC_EL=OFF -DNATIVE=ON
+
+        ninja
+        ninja install
+    )
+
+    sc3-plugins
+}
+
+sc3-plugins()
+{
+    (
+        mkdir sc3-plugins/build
+        cd sc3-plugins/build
+
+        cmake .. -GNinja -DSC_PATH=../../supercollider -DCMAKE_BUILD_TYPE=Release -DSUPERNOVA=ON -DLADSPA=0 -DCMAKE_CXX_FLAGS='-Ofast -march=native' -DCMAKE_C_FLAGS='-Ofast -march=native'
 
         ninja
         ninja install
@@ -44,6 +72,7 @@ score()
 }
 
 cd /tmp
-faust
-score
+#faust
+#score
+sc
 exit

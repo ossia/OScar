@@ -1,6 +1,7 @@
 #!/bin/bash
 
-export ROOTFS="https://olegtown.pw/Public/ArchLinuxArm/RPi4/rootfs/ArchLinuxARM-rpi-4-aarch64-2020-07-12.tar.gz"
+export PREFIX="https://olegtown.pw/Public/ArchLinuxArm/RPi4/rootfs/"
+export ROOTFS="ArchLinuxARM-rpi-4-aarch64-2020-07-12.tar.gz"
 export PLATFORM="linux/arm64/v8"
 export LOOP="/dev/loop0"
 
@@ -45,13 +46,14 @@ EEOF
 
 
     if [ ! -f *.tar.gz ]; then
-        wget $ROOTFS
+        wget $PREFIX$ROOTFS
     fi
 
-    bsdtar -xpf *.tar.gz -C root/
+    bsdtar -xpf $ROOTFS -C root/
     sync
 
     mount --bind --make-rslave /sys root/sys
+    mount --bind --make-rslave /dev root/dev
 }
 
 clone() # clone all repositories
@@ -59,10 +61,17 @@ clone() # clone all repositories
     (
         cd root/tmp
 
-        git clone --recursive -j`nproc` https://github.com/grame-cncm/faust.git
-        git clone --recursive -j`nproc` https://github.com/jcelerier/qtshadertools.git
-        git clone --recursive -j`nproc` https://github.com/ossia/score.git
-        git clone --recursive -j`nproc` https://github.com/ossia/score-user-library.git
+        ## faust
+        #git clone --recursive -j`nproc` https://github.com/grame-cncm/faust.git
+
+        ## score
+        #git clone --recursive -j`nproc` https://github.com/jcelerier/qtshadertools.git
+        #git clone --recursive -j`nproc` https://github.com/ossia/score.git
+        #git clone --recursive -j`nproc` https://github.com/ossia/score-user-library.git
+
+        ## supercollider
+        git clone --recursive -j`nproc` https://github.com/scrime-u-bordeaux/supercollider.git
+        git clone --recursive -j`nproc` https://github.com/thibaudk/sc3-plugins.git
     )
 }
 
@@ -70,7 +79,7 @@ clean()
 {
     mv root/boot/* boot/
     rm -rf root/tmp/*
-    umount -R root/ boot/
+    umount -R -f root/ boot/
     losetup -d $LOOP
     rm -rf root/ boot/
     mv OScar.iso ..
@@ -93,10 +102,9 @@ if [ "$1" == "-c" ]; then
 else
     part
     clone
-    ./prepare.sh
-    docker run --rm -v $PWD:/mnt --platform $PLATFORM lopsided/archlinux:devel /mnt/finish.sh
+    ./chroot.sh
     ## for manual use
     ## docker run --rm -v $PWD:/mnt --platform linux/arm64/v8 -it lopsided/archlinux:devel
-    clean
+    #clean
     exit
 fi
