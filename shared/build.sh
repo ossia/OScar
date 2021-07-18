@@ -56,6 +56,15 @@ sc()
     )
 
     sc3-plugins
+
+    mkdir /home/oscar/.local/share/ATK
+    mv atk-kernels /home/oscar/.local/share/ATK/kernels
+    mv atk-matrices /home/oscar/.local/share/ATK/matrices
+
+    su - oscar -c "QT_QPA_PLATFORM=offscreen sclang /tmp/installMosca.scd"
+
+    pacman -S python-pip
+    pip install python-osc pypozyx
 }
 
 sc3-plugins()

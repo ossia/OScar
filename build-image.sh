@@ -72,6 +72,9 @@ clone() # clone all repositories
         ## supercollider
         git clone --recursive -j`nproc` https://github.com/scrime-u-bordeaux/supercollider.git
         git clone --recursive -j`nproc` https://github.com/thibaudk/sc3-plugins.git
+        git clone https://github.com/ambisonictoolkit/atk-kernels.git
+        git clone https://github.com/ambisonictoolkit/atk-matrices.git
+
     )
 }
 
