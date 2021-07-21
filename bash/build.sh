@@ -43,30 +43,6 @@ score()
     )
 }
 
-sc()
-{
-    (
-        mkdir supercollider/build
-        cd supercollider/build
-
-        cmake  .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS='-Ofast -march=native' -DCMAKE_C_FLAGS='-Ofast -march=native' -DSC_EL=OFF -DNATIVE=ON
-
-        ninja
-        ninja install
-    )
-
-    sc3-plugins
-
-    mkdir /home/oscar/.local/share/ATK
-    mv atk-kernels /home/oscar/.local/share/ATK/kernels
-    mv atk-matrices /home/oscar/.local/share/ATK/matrices
-
-    su - oscar -c "QT_QPA_PLATFORM=offscreen sclang /tmp/installMosca.scd"
-
-    pacman -S python-pip
-    pip install python-osc pypozyx
-}
-
 sc3-plugins()
 {
     (
@@ -78,6 +54,26 @@ sc3-plugins()
         ninja
         ninja install
     )
+}
+
+sc()
+{
+    (
+        mkdir supercollider/build
+        cd supercollider/build
+
+        cmake  .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS='-Ofast -march=native' -DCMAKE_C_FLAGS='-Ofast -march=native' -DNO_X11=ON -DSC_EL=OFF -DNATIVE=ON
+
+        ninja
+        ninja install
+    )
+
+    sc3-plugins
+
+    su - oscar -c "mkdir -p /home/oscar/.local/share/ATK; mv atk-kernels /home/oscar/.local/share/ATK/kernels; mv atk-matrices /home/oscar/.local/share/ATK/matrices; QT_QPA_PLATFORM=offscreen sclang /tmp/installMosca.sc"
+
+    pacman -S python-pip --noconfirm
+    pip install python-osc pypozyx --no-input
 }
 
 cd /tmp

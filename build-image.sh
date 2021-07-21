@@ -74,7 +74,6 @@ clone() # clone all repositories
         git clone --recursive -j`nproc` https://github.com/thibaudk/sc3-plugins.git
         git clone https://github.com/ambisonictoolkit/atk-kernels.git
         git clone https://github.com/ambisonictoolkit/atk-matrices.git
-
     )
 }
 
@@ -82,10 +81,9 @@ clean()
 {
     mv root/boot/* boot/
     rm -rf root/tmp/*
-    umount -R -f root/ boot/
-    losetup -d $LOOP
+    umount -R -l root/ boot/
     rm -rf root/ boot/
-    mv OScar.iso ..
+    losetup -d $LOOP
 }
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
@@ -93,7 +91,11 @@ if [[ $(/usr/bin/id -u) -ne 0 ]]; then
     exit
 fi
 
-cd $PWD/shared
+if [ ! -d tmp/ ]; then
+    mkdir tmp
+fi
+
+cd tmp/
 
 if [ "$1" == "-c" ]; then
     if [ ! -z "$2" ]; then
@@ -105,7 +107,7 @@ if [ "$1" == "-c" ]; then
 else
     part
     clone
-    ./chroot.sh
+    ./../bash/chroot.sh
     ## for manual use
     ## docker run --rm -v $PWD:/mnt --platform linux/arm64/v8 -it lopsided/archlinux:devel
     #clean
