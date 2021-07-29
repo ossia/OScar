@@ -52,8 +52,9 @@ EEOF
     bsdtar -xpf $ROOTFS -C root/
     sync
 
-    mount --bind --make-rslave /sys root/sys
-    mount --bind --make-rslave /dev root/dev
+    #mount --bind --make-rslave /proc root/proc
+    #mount --bind --make-rslave /sys root/sys
+    #mount --bind --make-rslave /dev root/dev
 }
 
 clone() # clone all repositories
@@ -65,15 +66,15 @@ clone() # clone all repositories
         #git clone --recursive -j`nproc` https://github.com/grame-cncm/faust.git
 
         ## score
-        #git clone --recursive -j`nproc` https://github.com/jcelerier/qtshadertools.git
-        #git clone --recursive -j`nproc` https://github.com/ossia/score.git
-        #git clone --recursive -j`nproc` https://github.com/ossia/score-user-library.git
+        git clone --recursive -j`nproc` https://github.com/jcelerier/qtshadertools.git
+        git clone --recursive -j`nproc` https://github.com/ossia/score.git
+        git clone --recursive -j`nproc` https://github.com/ossia/score-user-library.git
 
         ## supercollider
-        git clone --recursive -j`nproc` https://github.com/scrime-u-bordeaux/supercollider.git
-        git clone --recursive -j`nproc` https://github.com/thibaudk/sc3-plugins.git
-        git clone https://github.com/ambisonictoolkit/atk-kernels.git
-        git clone https://github.com/ambisonictoolkit/atk-matrices.git
+#         git clone --recursive -j`nproc` https://github.com/scrime-u-bordeaux/supercollider.git
+#         git clone --recursive -j`nproc` https://github.com/thibaudk/sc3-plugins.git
+#         git clone https://github.com/ambisonictoolkit/atk-kernels.git
+#         git clone https://github.com/ambisonictoolkit/atk-matrices.git
     )
 }
 
@@ -81,7 +82,7 @@ clean()
 {
     mv root/boot/* boot/
     rm -rf root/tmp/*
-    umount -R -l root/ boot/
+    umount -R -f root/ boot/
     rm -rf root/ boot/
     losetup -d $LOOP
 }

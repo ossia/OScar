@@ -1,0 +1,11 @@
+[Unit]
+Description=on Boot
+
+[Service]
+Type=simple
+User=oscar
+RemainAfterExit=yes
+ExecStart=/home/oscar/autostart.sh
+
+[Install]
+WantedBy=multi-user.target

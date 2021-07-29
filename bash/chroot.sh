@@ -1,6 +1,11 @@
 #!/bin/bash
 
-cp ../bash/setup.sh ../bash/build.sh ../sc/installMosca.sc root/tmp/
+cp ../bash/setup.sh \
+../bash/build.sh \
+../sc/installMosca.sc \
+../bash/autostart.sh \
+../config/* \
+root/tmp/
 mv root/etc/resolv.conf .
 cp /etc/resolv.conf root/etc/
 

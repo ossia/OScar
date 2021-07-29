@@ -62,7 +62,7 @@ sc()
         mkdir supercollider/build
         cd supercollider/build
 
-        cmake  .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS='-Ofast -march=native' -DCMAKE_C_FLAGS='-Ofast -march=native' -DNO_X11=ON -DSC_EL=OFF -DNATIVE=ON
+        cmake  .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS='-Ofast -march=native' -DCMAKE_C_FLAGS='-Ofast -march=native' -DNO_X11=ON -DSC_EL=OFF -DAUDIOAPI=portaudio
 
         ninja
         ninja install
