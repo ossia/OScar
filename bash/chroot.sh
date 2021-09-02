@@ -11,6 +11,5 @@ cp /etc/resolv.conf root/etc/
 
 chroot root /tmp/setup.sh
 
-#mv resolv.conf root/etc/resolv.conf
-
+mv resolv.conf root/etc/resolv.conf
 exit

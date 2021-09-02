@@ -70,14 +70,14 @@ sc()
 
     sc3-plugins
 
-    su - oscar -c "mkdir -p /home/oscar/.local/share/ATK; mv atk-kernels /home/oscar/.local/share/ATK/kernels; mv atk-matrices /home/oscar/.local/share/ATK/matrices; QT_QPA_PLATFORM=offscreen sclang /tmp/installMosca.sc"
+    su - oscar -c "mkdir -p /home/oscar/.local/share/ATK; mv /tmp/atk-kernels /home/oscar/.local/share/ATK/kernels; mv /tmp/atk-matrices /home/oscar/.local/share/ATK/matrices; QT_QPA_PLATFORM=offscreen sclang /tmp/installMosca.sc"
 
-    pacman -S python-pip --noconfirm
+    #pacman -S python-pip --noconfirm
     pip install python-osc pypozyx --no-input
 }
 
 cd /tmp
-#faust
-#score
+faust
+score
 sc
 exit
