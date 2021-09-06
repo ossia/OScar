@@ -55,7 +55,7 @@
                     `*vzzzzz/:           `=zzzzzz/;
                     ,*^*L|;>?'            ;|^^/\^*^`
                         '`                    '-
-for embeded ossia projects
+for embedded ossia projects
 ## prerequisite
 ```qemu-user-static``` needs to be installed.
 ```docker``` is also needed to execute the registering scripts
