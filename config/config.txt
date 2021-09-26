@@ -1,0 +1,13 @@
+# See /boot/overlays/README for all available options
+
+initramfs initramfs-linux.img followkernel
+dtparam=audio=on
+#dtoverlay=audioinjector-ultra
+dtoverlay=vc4-kms-v3d
+#hdmi_drive=2
+
+audio_pwm_mode=2
+#arm_64bit=1
+#gpu_mem=64
+#kernel=kernel8.img
+#dtoverlay=dwc2

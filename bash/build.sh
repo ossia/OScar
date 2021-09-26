@@ -1,5 +1,12 @@
 #!/bin/bash
 
+helm()
+{
+    cd /tmp/helm-git 
+    sed -i "s/arch=.*/arch=( 'any' )/" PKGBUILD
+    su - oscar -c "cd /tmp/helm-git; makepkg -si"
+}
+
 faust()
 {
     (
@@ -76,7 +83,9 @@ sc()
     pip install python-osc pypozyx --no-input
 }
 
+sed -i 's/#MAKEFLAGS=.*/MAKEFLAGS="-j`nproc`"/' /etc/makepkg.conf
 cd /tmp
+helm
 faust
 score
 sc

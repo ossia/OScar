@@ -14,7 +14,7 @@ part() # partition and mount OScar.iso
     fi
 
     echo "Creating virtual partition"
-    dd if=/dev/zero of=OScar.iso bs=1M count=8192
+    dd if=/dev/zero of=OScar.iso bs=1M count=4600
 
     # TODO clean this
     fdisk OScar.iso <<EEOF
@@ -55,13 +55,12 @@ EEOF
     mount --bind --make-rslave /dev root/dev
     mount --bind --make-rslave /proc root/proc
     mount --bind --make-rslave /sys root/sys
+    mount --bind --make-rslave . root/tmp
 }
 
 clone() # clone all repositories
 {
     (
-        cd root/tmp
-
         ## faust
         git clone --recursive -j`nproc` https://github.com/grame-cncm/faust.git
 
@@ -75,6 +74,9 @@ clone() # clone all repositories
         git clone --recursive -j`nproc` https://github.com/thibaudk/sc3-plugins.git
         git clone https://github.com/ambisonictoolkit/atk-kernels.git
         git clone https://github.com/ambisonictoolkit/atk-matrices.git
+
+        # helm
+        git clone --recursive -j`nproc` https://aur.archlinux.org/helm-git.git
     )
 }
 
@@ -82,7 +84,7 @@ clean()
 {
     mv root/boot/* boot/
     rm -rf root/tmp/*
-    umount -R -f -l root/dev root/sys root/proc boot root
+    umount -R -f -l root/tmp root/dev root/sys root/proc boot root
     rm -rf root/ boot/
     losetup -d $LOOP
 }
