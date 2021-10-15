@@ -14,10 +14,10 @@ part() # partition and mount OScar.iso
     fi
 
     echo "Creating virtual partition"
-    dd if=/dev/zero of=OScar.iso bs=1M count=4600
+    dd if=/dev/zero of=../OScar.iso bs=1M count=5000
 
     # TODO clean this
-    fdisk OScar.iso <<EEOF
+    fdisk ../OScar.iso <<EEOF
     o
     n
     p
@@ -34,7 +34,7 @@ part() # partition and mount OScar.iso
     w
 EEOF
 
-    LOOP=$(losetup -Pf --show OScar.iso) # create device to mount OScar and store it
+    LOOP=$(losetup -Pf --show ../OScar.iso) # create device to mount OScar and store it
 
     mkfs.vfat ${LOOP}p1
     mkdir -p boot
@@ -61,10 +61,10 @@ EEOF
 clone() # clone all repositories
 {
     (
-        ## faust
+        # faust
         git clone --recursive -j`nproc` https://github.com/grame-cncm/faust.git
 
-        ## score
+        # score
         git clone --recursive -j`nproc` https://github.com/jcelerier/qtshadertools.git
         git clone --recursive -j`nproc` https://github.com/ossia/score.git
         git clone --recursive -j`nproc` https://github.com/ossia/score-user-library.git
@@ -76,7 +76,7 @@ clone() # clone all repositories
         git clone https://github.com/ambisonictoolkit/atk-matrices.git
 
         # helm
-        git clone --recursive -j`nproc` https://aur.archlinux.org/helm-git.git
+        # git clone --recursive -j`nproc` https://aur.archlinux.org/helm-git.git
     )
 }
 
@@ -85,8 +85,8 @@ clean()
     mv root/boot/* boot/
     rm -rf root/tmp/*
     umount -R -f -l root/tmp root/dev root/sys root/proc boot root
-    rm -rf root/ boot/
     losetup -d $LOOP
+    rm -rf root/ boot/
 }
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
